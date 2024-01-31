@@ -7,75 +7,92 @@ import Button from '@mui/material/Button';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import ChatIcon from '@mui/icons-material/Chat';
-// import { styled } from '@mui/material/styles';
+import axios from "axios";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const VideoChatLayout = () => {
+    const navigate = useNavigate(); // Hook for navigation
+    // Inside your VideoChatLayout component
+    const handleStartChat = async () => {
+        try {
+        const roomId = 'defaultRoom'; // Example room ID
+        const response = await axios.post('http://localhost:80/join-room', { roomId });
+        console.log('Response from server:', response.data);
+        navigate('/chat'); // Assuming you have a route set up for '/chat'
+        } catch (error) {
+        console.error('Error connecting to chat:', error);
+        }
+    };
+
     return (
-      <div style={{ flexGrow: 1, padding: 2 }}>
+        <div style={{ flexGrow: 1, padding: 2 }}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+            {/* Video Call Button */}
+            <Grid item xs={12} md={4}>
             <Paper sx={{ padding: 2, textAlign: 'center', color: 'text.secondary' }}>
-              <VideoCallIcon sx={{ fontSize: 50 }} />
-              <Typography variant="h5" component="h2">
+                <VideoCallIcon sx={{ fontSize: 50 }} />
+                <Typography variant="h5" component="h2">
                 Video Call
-              </Typography>
-              <Typography variant="body1" gutterBottom>
+                </Typography>
+                <Typography variant="body1" gutterBottom>
                 Experience high-quality video calls with your team.
-              </Typography>
-              <Button
+                </Typography>
+                <Button
                 variant="contained"
                 color="primary"
                 size="large"
                 sx={{ margin: 1 }}
-                href="/video-call"
-              >
+                onClick={() => navigate('/video-call')} // Programmatic navigation
+                >
                 Start Video Call
-              </Button>
+                </Button>
             </Paper>
-          </Grid>
-          <Grid item xs={12} md={4}>
+            </Grid>
+            {/* Meeting Room Button */}
+            <Grid item xs={12} md={4}>
             <Paper sx={{ padding: 2, textAlign: 'center', color: 'text.secondary' }}>
-              <MeetingRoomIcon sx={{ fontSize: 50 }} />
-              <Typography variant="h5" component="h2">
+                <MeetingRoomIcon sx={{ fontSize: 50 }} />
+                <Typography variant="h5" component="h2">
                 Meeting Room
-              </Typography>
-              <Typography variant="body1" gutterBottom>
+                </Typography>
+                <Typography variant="body1" gutterBottom>
                 Join or create a meeting room for your team.
-              </Typography>
-              <Button
+                </Typography>
+                <Button
                 variant="contained"
                 color="primary"
                 size="large"
                 sx={{ margin: 1 }}
-                href="/meeting-room"
-              >
+                onClick={() => navigate('/create-or-join')} // Programmatic navigation
+                >
                 Join Meeting Room
-              </Button>
+                </Button>
             </Paper>
-          </Grid>
-          <Grid item xs={12} md={4}>
+            </Grid>
+            {/* Chat Button */}
+            <Grid item xs={12} md={4}>
             <Paper sx={{ padding: 2, textAlign: 'center', color: 'text.secondary' }}>
-              <ChatIcon sx={{ fontSize: 50 }} />
-              <Typography variant="h5" component="h2">
+                <ChatIcon sx={{ fontSize: 50 }} />
+                <Typography variant="h5" component="h2">
                 Chat
-              </Typography>
-              <Typography variant="body1" gutterBottom>
+                </Typography>
+                <Typography variant="body1" gutterBottom>
                 Engage in real-time conversations with your team.
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                size="large"
-                sx={{ margin: 1 }}
-                href="/chat"
-              >
-                Start Chat
-              </Button>
+                </Typography>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                    sx={{ margin: 1 }}
+                    onClick={handleStartChat}
+                >
+                    Start Chat
+                </Button>
             </Paper>
-          </Grid>
+            </Grid>
         </Grid>
-      </div>
+        </div>
     );
-  };
+};
 
 export default VideoChatLayout;
