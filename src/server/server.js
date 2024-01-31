@@ -3,10 +3,10 @@ const http = require('http');
 const socketIo = require('socket.io');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
-const { logRoomAndIP } = require('./roomLogger'); // Import the logging function
+var cors = require('cors')
 
 const app = express();
-app.use(bodyParser.json());
+app.use(cors()) 
 
 const server = http.createServer(app);
 const io = socketIo(server);
@@ -16,10 +16,10 @@ app.post('/join-room', (req, res) => {
 
   // Extracting the user's IP address; depending on your setup, you might need req.headers['x-forwarded-for']
   const ip = req.socket.remoteAddress || req.headers['x-forwarded-for'];
+  console.log(`ip address: ${ip}`)
+//   logRoomAndIP(roomId, ip); // Log the room ID and IP address
 
-  logRoomAndIP(roomId, ip); // Log the room ID and IP address
-
-  const roomLink = `http://yourfrontenddomain.com/room/${roomId}`;
+  const roomLink = `/room/${roomId}`;
   res.status(200).json({ roomId: roomId, link: roomLink });
 });
 

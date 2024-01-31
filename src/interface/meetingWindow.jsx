@@ -18,7 +18,7 @@ const VideoChatLayout = () => {
         const roomId = 'defaultRoom'; // Example room ID
         const response = await axios.post('http://localhost:80/join-room', { roomId });
         console.log('Response from server:', response.data);
-        navigate('/chat'); // Assuming you have a route set up for '/chat'
+        navigate(`${response.data.link}`); // Assuming you have a route set up for '/chat'
         } catch (error) {
         console.error('Error connecting to chat:', error);
         }

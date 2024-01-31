@@ -11,7 +11,7 @@ import VideoChatLayout from './meetingWindow'; // Assuming this is your main or 
 const Layout = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <AppBar position="static" style={{ fontFamily: 'sans-serif', background: 'black' }}>
+      <AppBar position="static" style={{ fontFamily: 'sans-serif', background: 'black', textAlign:"center" }}>
         <Toolbar style={{ fontFamily: 'sans-serif', color: 'black' }}>
           <IconButton edge="start" style={{ marginRight: 2, color: "white" }} color="inherit" aria-label="menu">
             <MenuIcon />
