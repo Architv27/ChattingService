@@ -1,26 +1,42 @@
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
-const bodyParser = require('body-parser');
+const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
-var cors = require('cors')
+const connectDB = require('./db'); // Import the database connection
+const Room = require('./Room'); // Import the Room model
 
 const app = express();
-app.use(cors()) 
+app.use(cors());
+app.use(express.json());
+
+connectDB(); // Establish database connection
 
 const server = http.createServer(app);
 const io = socketIo(server);
 
-app.post('/join-room', (req, res) => {
+app.post('/join-room', async (req, res) => {
   const roomId = uuidv4();
-
-  // Extracting the user's IP address; depending on your setup, you might need req.headers['x-forwarded-for']
   const ip = req.socket.remoteAddress || req.headers['x-forwarded-for'];
-  console.log(`ip address: ${ip}`)
-//   logRoomAndIP(roomId, ip); // Log the room ID and IP address
+  
+  try {
+    // Create a new room or update the existing one
+    const room = await Room.findOneAndUpdate({ roomId }, {
+      $setOnInsert: { roomId, link: `/room/${roomId}` },
+      $addToSet: { ipAddresses: ip }, // Add IP address if not already present
+      $inc: { numberOfPeople: 1 }, // Increment number of people
+    }, { upsert: true, new: true, setDefaultsOnInsert: true });
 
-  const roomLink = `/room/${roomId}`;
-  res.status(200).json({ roomId: roomId, link: roomLink });
+    console.log(`Room created/updated: ${room.roomId}, IP: ${ip}`);
+
+    // Optionally, broadcast room creation/update to all connected clients
+    io.emit('room-updated', room);
+
+    res.status(200).json({ roomId: room.roomId, link: room.link, numberOfPeople: room.numberOfPeople });
+  } catch (error) {
+    console.error('Error handling room:', error);
+    res.status(500).send('Server error');
+  }
 });
 
 const PORT = process.env.PORT || 80;
