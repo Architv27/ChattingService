@@ -16,7 +16,7 @@ const VideoChat = () => {
       webcamEnabled: true,
       name: "Archit's Org",
     }}
-    token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIyOGRmYmU4ZC01Nzk4LTQzMmItOGZkNy1jZGNlZmVlY2Y5N2IiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcwNjY4NjU2MCwiZXhwIjoxNzA2NzcyOTYwfQ.NklyM6rbBbw11A2lXrmUdDjkzYYDibDGBpRAf1ryjP8"
+    token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlrZXkiOiIyOGRmYmU4ZC01Nzk4LTQzMmItOGZkNy1jZGNlZmVlY2Y5N2IiLCJwZXJtaXNzaW9ucyI6WyJhbGxvd19qb2luIl0sImlhdCI6MTcwNjgyODc3MSwiZXhwIjoxODY0NjE2NzcxfQ.sX8ybBrgeuLktHBK1ms7oRVHmA1b-SyC1_AXuuxWmTU"
   >
     <MeetingView />
   </MeetingProvider>

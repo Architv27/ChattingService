@@ -1,19 +1,13 @@
 const mongoose = require('mongoose');
 
 const roomSchema = new mongoose.Schema({
-  roomId: {
+  meetingID: {
     type: String,
-    required: true,
-    unique: true,
+    required:true
   },
-  link: {
+  token:{
     type: String,
-    required: true,
-  },
-  numberOfPeople: {
-    type: Number,
-    required: true,
-    default: 0,
+    required:true
   },
   ipAddresses: [String],
 }, { timestamps: true });
